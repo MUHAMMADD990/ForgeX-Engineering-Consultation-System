@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ForgeX — الإعدادات</title>
+<link rel="icon" href="assets/logo1.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/forgex-core.css">
+<link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.5 14.2c2.6.4 4.5 2.6 4.5 5.3"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2.5" width="6" height="3" rx="1"/><path d="M8.5 11h7M8.5 15h7M8.5 19h4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M11 20V4M18 20v-7"/><path d="M3 20h18"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.5-2-3.5-2.4.6a7.5 7.5 0 00-2.6-1.5L14 2h-4l-.4 2.6a7.5 7.5 0 00-2.6 1.5l-2.4-.6-2 3.5 2 1.5a7.6 7.6 0 000 3l-2 1.5 2 3.5 2.4-.6a7.5 7.5 0 002.6 1.5L10 22h4l.4-2.6a7.5 7.5 0 002.6-1.5l2.4.6 2-3.5-2-1.5z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17.5v.1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+</svg>
+
+<div class="app-shell">
+  <header class="topbar">
+    <button class="hamburger" aria-label="فتح القائمة"><svg class="icon"><use href="#i-grid"/></svg></button>
+    <a href="index.html" class="topbar__brand">
+      <div class="topbar__mark"><img src="assets/logo1.svg" alt="ForgeX"></div>
+      <div class="topbar__title"><strong>ForgeX</strong><span>نظام الاستشارات الهندسية</span></div>
+    </a>
+    <div class="topbar__actions" style="margin-inline-start:auto;"><div class="avatar">م.س</div></div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="wizard.html" class="sidebar__cta"><svg class="icon"><use href="#i-plus"/></svg><span>استشارة جديدة</span></a>
+      <nav>
+        <a href="index.html" class="nav-item"><svg class="icon"><use href="#i-grid"/></svg><span>الرئيسية</span></a>
+        <a href="customers.html" class="nav-item"><svg class="icon"><use href="#i-users"/></svg><span>العملاء</span></a>
+        <a href="projects.html" class="nav-item"><svg class="icon"><use href="#i-clipboard"/></svg><span>المشاريع</span></a>
+        <a href="projects.html" class="nav-item"><svg class="icon"><use href="#i-chart"/></svg><span>التقارير</span></a>
+      </nav>
+      <span class="sidebar__section-label">النظام</span>
+      <nav><a href="settings.html" class="nav-item nav-item--active" aria-current="page"><svg class="icon"><use href="#i-settings"/></svg><span>الإعدادات</span></a></nav>
+    </aside>
+
+    <main class="main">
+      <div class="page-header anim-fade-up">
+        <div><h1>الإعدادات</h1><p>إعدادات الشركة والنظام والنسخ الاحتياطي</p></div>
+      </div>
+
+      <div class="settings-tabs">
+        <button class="settings-tab is-active" data-tab="company">بيانات الشركة</button>
+        <button class="settings-tab" data-tab="system">إعدادات النظام</button>
+        <button class="settings-tab" data-tab="backup">النسخ الاحتياطي</button>
+        <button class="settings-tab" data-tab="about">حول التطبيق</button>
+      </div>
+
+      <!-- ================= COMPANY SETTINGS ================= -->
+      <section class="settings-panel is-active" id="tab-company">
+        <div class="panel">
+          <div class="logo-uploader">
+            <div class="logo-uploader__preview" id="logoPreview"><svg class="icon icon--lg" style="color:#fff;"><use href="#i-settings"/></svg></div>
+            <div>
+              <label class="btn btn--outline btn--sm" style="cursor:pointer;">
+                <svg class="icon"><use href="#i-upload"/></svg>رفع شعار جديد
+                <input type="file" id="logoInput" accept="image/*" style="display:none">
+              </label>
+              <div class="hint" style="margin-top:var(--sp-2);">PNG أو SVG، يُفضّل خلفية شفافة</div>
+            </div>
+          </div>
+          <div class="form-grid settings-form-grid">
+            <div class="field field--full"><label>اسم الشركة</label><input type="text" id="s-companyName"></div>
+            <div class="field field--full"><label>العنوان</label><input type="text" id="s-address"></div>
+            <div class="field"><label>البريد الإلكتروني</label><input type="email" id="s-email" style="direction:ltr; text-align:end;"></div>
+            <div class="field"><label>رقم الهاتف</label><input type="tel" id="s-phone" style="direction:ltr; text-align:end;"></div>
+          </div>
+          <div style="margin-top:var(--sp-5); display:flex; justify-content:flex-end;">
+            <button class="btn btn--primary" id="saveCompanyBtn"><svg class="icon"><use href="#i-settings"/></svg>حفظ بيانات الشركة</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SYSTEM SETTINGS ================= -->
+      <section class="settings-panel" id="tab-system">
+        <div class="panel" style="margin-bottom:var(--sp-4);">
+          <div class="form-grid">
+            <div class="field field--full">
+              <label>اسم المهندس الافتراضي</label>
+              <input type="text" id="s-defaultEngineer" placeholder="يُستخدم كقيمة مبدئية عند إنشاء مشروع جديد">
+            </div>
+          </div>
+          <div style="margin-top:var(--sp-5); display:flex; justify-content:flex-end;">
+            <button class="btn btn--primary" id="saveSystemBtn">حفظ إعدادات النظام</button>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:var(--sp-4);">
+          <div class="panel__head"><h3>المظهر</h3></div>
+          <div class="theme-options">
+            <div class="theme-option" data-theme-option="light"><div class="theme-option__swatch theme-option__swatch--light"></div><span>فاتح</span></div>
+            <div class="theme-option" data-theme-option="dark"><div class="theme-option__swatch theme-option__swatch--dark"></div><span>داكن</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><h3>اللغة</h3></div>
+          <div class="option-grid">
+            <label class="choice-card"><input type="radio" name="lang" value="ar" checked><span>العربية</span></label>
+            <label class="choice-card" style="opacity:.5; cursor:not-allowed;"><input type="radio" name="lang" value="en" disabled><span>English (قريباً)</span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BACKUP & RESTORE ================= -->
+      <section class="settings-panel" id="tab-backup">
+        <div class="panel" style="margin-bottom:var(--sp-4);">
+          <div class="panel__head"><h3>تصدير البيانات</h3></div>
+          <div class="backup-actions">
+            <div class="backup-card">
+              <div class="backup-card__icon"><svg class="icon"><use href="#i-download"/></svg></div>
+              <div class="backup-card__body"><strong>تنزيل نسخة احتياطية كاملة</strong><span>تشمل العملاء، المشاريع، التقارير، والمرفقات</span></div>
+              <button class="btn btn--outline btn--sm" id="exportBtn">تصدير JSON</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:var(--sp-4);">
+          <div class="panel__head"><h3>استعادة نسخة احتياطية</h3></div>
+          <div class="backup-actions">
+            <div class="backup-card">
+              <div class="backup-card__icon"><svg class="icon"><use href="#i-upload"/></svg></div>
+              <div class="backup-card__body"><strong>استيراد ملف نسخة احتياطية</strong><span>سيتم استبدال البيانات الحالية بعد التأكيد</span></div>
+              <label class="btn btn--outline btn--sm" style="cursor:pointer;">اختيار ملف<input type="file" id="importInput" accept="application/json" style="display:none"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <h3><svg class="icon"><use href="#i-alert"/></svg>منطقة الخطر</h3>
+          <p>سيؤدي هذا الإجراء إلى حذف جميع بيانات ForgeX المخزّنة محلياً على هذا الجهاز نهائياً (العملاء، المشاريع، التقارير، المرفقات، الإعدادات). لا يمكن التراجع عن هذا الإجراء إلا باستعادة نسخة احتياطية.</p>
+          <button class="btn btn--danger-solid" id="wipeBtn"><svg class="icon"><use href="#i-alert"/></svg>حذف جميع البيانات</button>
+        </div>
+      </section>
+
+      <!-- ================= ABOUT ================= -->
+      <section class="settings-panel" id="tab-about">
+        <div class="about-card">
+            <img src="assets/logo1.svg" alt="ForgeX">
+          <div><strong>ForgeX Engineering Consultation System</strong><span id="aboutVersion">الإصدار 1.0.0</span></div>
+        </div>
+        <div class="panel">
+          <div class="about-list">
+            <div class="item"><span class="label">عدد العملاء</span><span id="aboutCustomerCount" class="ltr-num">0</span></div>
+            <div class="item"><span class="label">عدد المشاريع</span><span id="aboutProjectCount" class="ltr-num">0</span></div>
+            <div class="item"><span class="label">وضع التخزين</span><span>محلي (LocalStorage)</span></div>
+            <div class="item"><span class="label">اللغة</span><span>العربية (RTL)</span></div>
+          </div>
+          <div class="hint" style="margin-top:var(--sp-5); line-height:1.8;">
+            ForgeX يعمل بالكامل داخل المتصفح دون الحاجة لاتصال بالإنترنت أو خادم خلفي — جميع البيانات محفوظة محلياً على هذا الجهاز فقط.
+            طبقة قاعدة البيانات (js/forgex-db.js) مصمّمة لتكون نقطة الاستبدال الوحيدة عند الانتقال مستقبلاً إلى قاعدة بيانات سحابية.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-tabbar">
+    <a href="index.html" class="mobile-tabbar__item"><svg class="icon icon--sm"><use href="#i-grid"/></svg>الرئيسية</a>
+    <a href="customers.html" class="mobile-tabbar__item"><svg class="icon icon--sm"><use href="#i-users"/></svg>العملاء</a>
+    <a href="wizard.html" class="mobile-tabbar__item mobile-tabbar__item--cta"><svg class="icon icon--sm"><use href="#i-plus"/></svg>جديد</a>
+    <a href="projects.html" class="mobile-tabbar__item"><svg class="icon icon--sm"><use href="#i-clipboard"/></svg>المشاريع</a>
+    <a href="settings.html" class="mobile-tabbar__item mobile-tabbar__item--active"><svg class="icon icon--sm"><use href="#i-settings"/></svg>الإعدادات</a>
+  </nav>
+</div>
+
+<script src="js/forgex-db.js"></script>
+<script src="js/forgex-utils.js"></script>
+<script>
+(function(){
+  'use strict';
+  ForgeXDB.seedIfEmpty();
+
+  /* ---------------- TABS ---------------- */
+  document.querySelectorAll('.settings-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.settings-tab').forEach(function(t){ t.classList.remove('is-active'); });
+      document.querySelectorAll('.settings-panel').forEach(function(p){ p.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('is-active');
+    });
+  });
+
+  /* ---------------- LOAD CURRENT SETTINGS ---------------- */
+  var settings = ForgeXDB.settings.get();
+  document.getElementById('s-companyName').value = settings.companyName || '';
+  document.getElementById('s-address').value = settings.address || '';
+  document.getElementById('s-email').value = settings.email || '';
+  document.getElementById('s-phone').value = settings.phone || '';
+  document.getElementById('s-defaultEngineer').value = settings.defaultEngineer || '';
+  var logoPreview = document.getElementById('logoPreview');
+  if(settings.logoDataUrl){ logoPreview.innerHTML = '<img src="'+settings.logoDataUrl+'" alt="شعار الشركة">'; }
+
+  document.getElementById('logoInput').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 2 * 1024 * 1024){ ForgeXUI.toast('حجم الشعار يجب ألا يتجاوز 2 ميجابايت', 'error'); return; }
+    ForgeXUI.readFileAsDataUrl(file).then(function(dataUrl){
+      logoPreview.innerHTML = '<img src="'+dataUrl+'" alt="شعار الشركة">';
+      ForgeXDB.settings.update({ logoDataUrl: dataUrl });
+      ForgeXUI.toast('تم تحديث الشعار', 'success');
+    });
+  });
+
+  document.getElementById('saveCompanyBtn').addEventListener('click', function(){
+    ForgeXDB.settings.update({
+      companyName: document.getElementById('s-companyName').value.trim(),
+      address: document.getElementById('s-address').value.trim(),
+      email: document.getElementById('s-email').value.trim(),
+      phone: document.getElementById('s-phone').value.trim()
+    });
+    ForgeXUI.toast('تم حفظ بيانات الشركة', 'success');
+  });
+
+  document.getElementById('saveSystemBtn').addEventListener('click', function(){
+    ForgeXDB.settings.update({ defaultEngineer: document.getElementById('s-defaultEngineer').value.trim() });
+    ForgeXUI.toast('تم حفظ إعدادات النظام', 'success');
+  });
+
+  /* ---------------- THEME ---------------- */
+  var currentTheme = settings.theme || 'light';
+  function refreshThemeUI(){
+    document.querySelectorAll('.theme-option').forEach(function(opt){
+      opt.classList.toggle('is-selected', opt.dataset.themeOption === currentTheme);
+    });
+  }
+  ForgeXUI.theme.apply(currentTheme);
+  refreshThemeUI();
+  document.querySelectorAll('.theme-option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      currentTheme = opt.dataset.themeOption;
+      ForgeXUI.theme.apply(currentTheme);
+      ForgeXDB.settings.update({ theme: currentTheme });
+      refreshThemeUI();
+      ForgeXUI.toast(currentTheme === 'dark' ? 'تم تفعيل الوضع الداكن' : 'تم تفعيل الوضع الفاتح', 'info');
+    });
+  });
+
+  /* ---------------- BACKUP / RESTORE ---------------- */
+  document.getElementById('exportBtn').addEventListener('click', function(){
+    ForgeXDB.backup.download();
+    ForgeXUI.toast('تم تنزيل النسخة الاحتياطية', 'success');
+  });
+
+  document.getElementById('importInput').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var parsed;
+      try{ parsed = JSON.parse(reader.result); }
+      catch(err){ ForgeXUI.toast('الملف المحدد ليس بصيغة JSON صالحة', 'error'); return; }
+
+      var check = ForgeXDB.backup.validate(parsed);
+      if(!check.valid){ ForgeXUI.toast(check.reason, 'error'); return; }
+
+      var counts = 'عملاء: ' + parsed.data.customers.length + ' — مشاريع: ' + parsed.data.projects.length;
+      ForgeXUI.confirm('سيتم استبدال جميع البيانات الحالية بمحتوى هذا الملف (' + counts + '). هل تريد المتابعة؟', 'تأكيد الاستعادة').then(function(ok){
+        if(!ok) return;
+        var result = ForgeXDB.backup.restore(parsed);
+        if(result.valid){
+          ForgeXUI.toast('تمت استعادة البيانات بنجاح — سيتم تحديث الصفحة', 'success');
+          setTimeout(function(){ window.location.reload(); }, 1200);
+        } else {
+          ForgeXUI.toast(result.reason, 'error');
+        }
+      });
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  document.getElementById('wipeBtn').addEventListener('click', function(){
+    ForgeXUI.confirm('سيتم حذف جميع بيانات ForgeX من هذا الجهاز نهائياً. هذا الإجراء لا يمكن التراجع عنه إلا باستعادة نسخة احتياطية سابقة.', 'حذف جميع البيانات؟').then(function(ok){
+      if(!ok) return;
+      ForgeXDB.backup.wipeAll();
+      ForgeXUI.toast('تم حذف جميع البيانات — سيتم إعادة التحميل', 'success');
+      setTimeout(function(){ window.location.href = 'index.html'; }, 1200);
+    });
+  });
+
+  /* ---------------- ABOUT ---------------- */
+  document.getElementById('aboutVersion').textContent = 'الإصدار ' + ForgeXDB.VERSION;
+  document.getElementById('aboutCustomerCount').textContent = ForgeXDB.customers.getAll().length;
+  document.getElementById('aboutProjectCount').textContent = ForgeXDB.projects.getAll().length;
+})();
+</script>
+</body>
+</html>

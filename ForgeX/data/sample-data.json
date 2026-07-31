@@ -1,0 +1,77 @@
+{
+  "app": "ForgeX Engineering Consultation System",
+  "version": "1.0.0",
+  "exportedAt": "2026-07-31T09:00:00.000Z",
+  "note": "بيانات تجريبية للاختبار — يمكن استيرادها من صفحة الإعدادات > النسخ الاحتياطي > استيراد ملف نسخة احتياطية",
+  "data": {
+    "customers": [
+      {
+        "id": "cus_sample0001",
+        "companyName": "شركة الفولاذ المتحدة",
+        "contactPerson": "م. عبدالله الحربي",
+        "phone": "0551234567",
+        "email": "contact@unitedsteel.example",
+        "industry": "تصنيع ثقيل",
+        "notes": "عميل استراتيجي — عقد سنوي نشط.",
+        "createdAt": "2026-06-01T08:00:00.000Z",
+        "updatedAt": "2026-06-01T08:00:00.000Z"
+      },
+      {
+        "id": "cus_sample0002",
+        "companyName": "مصانع الخليج للتصنيع",
+        "contactPerson": "م. فهد الدوسري",
+        "phone": "0559876543",
+        "email": "info@gulfmanufacturing.example",
+        "industry": "أتمتة صناعية",
+        "notes": "",
+        "createdAt": "2026-06-05T08:00:00.000Z",
+        "updatedAt": "2026-06-05T08:00:00.000Z"
+      }
+    ],
+    "projects": [
+      {
+        "id": "prj_sample0001",
+        "code": "FGX-2026-0001",
+        "customerId": "cus_sample0001",
+        "customerName": "شركة الفولاذ المتحدة",
+        "serviceType": "تشغيل CNC",
+        "status": "استشارة",
+        "engineer": "م. سالم العتيبي",
+        "history": [
+          { "status": "استشارة", "changedAt": "2026-07-20T08:00:00.000Z", "note": "إنشاء أولي" }
+        ],
+        "createdAt": "2026-07-20T08:00:00.000Z",
+        "updatedAt": "2026-07-20T08:00:00.000Z"
+      },
+      {
+        "id": "prj_sample0002",
+        "code": "FGX-2026-0002",
+        "customerId": "cus_sample0002",
+        "customerName": "مصانع الخليج للتصنيع",
+        "serviceType": "قص بالليزر",
+        "status": "مراجعة هندسية",
+        "engineer": "م. ريما الشهري",
+        "history": [
+          { "status": "استشارة", "changedAt": "2026-07-18T08:00:00.000Z", "note": "إنشاء أولي" },
+          { "status": "مراجعة هندسية", "changedAt": "2026-07-22T08:00:00.000Z", "note": "" }
+        ],
+        "createdAt": "2026-07-18T08:00:00.000Z",
+        "updatedAt": "2026-07-22T08:00:00.000Z"
+      }
+    ],
+    "consultations": [],
+    "attachments": [],
+    "reports": [],
+    "settings": {
+      "companyName": "ForgeX للاستشارات الهندسية",
+      "logoDataUrl": null,
+      "address": "الرياض، المملكة العربية السعودية",
+      "email": "info@forgex.example",
+      "phone": "0112223344",
+      "defaultEngineer": "م. سالم العتيبي",
+      "theme": "light",
+      "language": "ar"
+    },
+    "meta": { "sequences": { "project:2026": 2 } }
+  }
+}
