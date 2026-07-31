@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ForgeX - تسجيل الدخول</title>
+<link rel="icon" href="assets/logo1.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/login.css">
+<script src="js/forgex-auth.js"></script>
+</head>
+<body>
+<main class="login-shell">
+  <section class="login-card" aria-labelledby="loginTitle">
+    <div class="login-brand"><img src="assets/logo1.svg" alt="ForgeX"><div><strong>ForgeX</strong><span>نظام الاستشارات الهندسية</span></div></div>
+    <div class="login-heading"><span class="eyebrow">مساحة العمل</span><h1 id="loginTitle">تسجيل الدخول</h1><p>أدخل كلمة المرور للمتابعة إلى النظام.</p></div>
+    <form id="loginForm" novalidate>
+      <label class="login-label" for="password">كلمة المرور</label>
+      <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required autofocus><button type="button" id="togglePassword" aria-label="إظهار كلمة المرور">إظهار</button></div>
+      <p class="login-error" id="loginError" role="alert" hidden>كلمة المرور غير صحيحة.</p>
+      <button class="login-submit" type="submit">دخول إلى النظام</button>
+    </form>
+    <p class="login-note">الوصول محمي على هذا الجهاز.</p>
+  </section>
+</main>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('loginForm');
+  var password = document.getElementById('password');
+  var error = document.getElementById('loginError');
+  var toggle = document.getElementById('togglePassword');
+  var params = new URLSearchParams(window.location.search);
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (ForgeXAuth.login(password.value)) {
+      window.location.replace(params.get('next') || 'index.html');
+      return;
+    }
+    error.hidden = false;
+    password.value = '';
+    password.focus();
+  });
+  toggle.addEventListener('click', function () {
+    var visible = password.type === 'text';
+    password.type = visible ? 'password' : 'text';
+    toggle.textContent = visible ? 'إظهار' : 'إخفاء';
+  });
+})();
+</script>
+</body>
+</html>

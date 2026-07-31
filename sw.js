@@ -6,10 +6,11 @@
    ========================================================================== */
 var CACHE_NAME = 'forgex-shell-v1.1.0';
 var SHELL_FILES = [
-  'index.html', 'wizard.html', 'customers.html', 'projects.html', 'reports.html', 'settings.html', 'report.html',
+  'index.html', 'login.html', 'wizard.html', 'customers.html', 'projects.html', 'reports.html', 'settings.html', 'report.html',
   'css/forgex-core.css', 'css/index.css', 'css/customers.css', 'css/projects.css', 'css/reports.css', 'css/settings.css', 'css/report.css',
   'js/forgex-db.js', 'js/forgex-utils.js',
-  'js/forgex-pwa.js',
+  'js/forgex-pwa.js', 'js/forgex-auth.js',
+  'css/login.css',
   'js/forgex-compat.js',
   'assets/logo1.svg', 'manifest.webmanifest'
 ];
