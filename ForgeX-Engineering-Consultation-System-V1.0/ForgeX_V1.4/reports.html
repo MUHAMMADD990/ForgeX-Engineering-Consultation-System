@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ForgeX - التقارير</title>
+<link rel="icon" href="assets/logo1.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/forgex-core.css">
+<link rel="stylesheet" href="css/reports.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <button class="hamburger" aria-label="فتح القائمة"><svg class="icon"><use href="#i-grid"></use></svg></button>
+    <a href="wizard.html" class="topbar__brand"><div class="topbar__mark"><img src="assets/logo1.svg" alt="ForgeX"></div><div class="topbar__title"><strong>ForgeX</strong><span>نظام الاستشارات الهندسية</span></div></a>
+    <div class="topbar__actions"><div class="avatar">م.س</div></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="wizard.html" class="sidebar__cta">+ <span>استشارة جديدة</span></a>
+      <span class="sidebar__section-label">القوائم الرئيسية</span>
+      <nav>
+        <a href="index.html" class="nav-item"><span>الرئيسية</span></a>
+        <a href="customers.html" class="nav-item"><span>العملاء</span></a>
+        <a href="projects.html" class="nav-item"><span>المشاريع</span></a>
+        <a href="reports.html" class="nav-item nav-item--active" aria-current="page"><span>التقارير</span></a>
+      </nav>
+      <span class="sidebar__section-label">النظام</span>
+      <nav><a href="settings.html" class="nav-item"><span>الإعدادات</span></a></nav>
+    </aside>
+    <main class="main" id="main-content">
+      <div class="page-header">
+        <div><h1>التقارير</h1><p>كل التقارير الهندسية التي تم إنشاؤها للمشاريع</p></div>
+        <a href="projects.html" class="btn btn--outline">اختيار مشروع</a>
+      </div>
+      <section class="panel reports-panel">
+        <div class="reports-toolbar"><strong id="reportCount">0 تقرير</strong><input id="reportSearch" type="search" placeholder="بحث برقم التقرير أو كود المشروع" autocomplete="off"></div>
+        <div id="reportsList" class="reports-list"></div>
+        <div id="reportsEmpty" class="empty-state" hidden><strong>لا توجد تقارير بعد</strong><span>أنشئ تقريرًا من تفاصيل أي مشروع.</span></div>
+      </section>
+    </main>
+  </div>
+  <nav class="mobile-tabbar"><a href="index.html" class="mobile-tabbar__item">الرئيسية</a><a href="customers.html" class="mobile-tabbar__item">العملاء</a><a href="wizard.html" class="mobile-tabbar__item mobile-tabbar__item--cta">جديد</a><a href="projects.html" class="mobile-tabbar__item">المشاريع</a><a href="settings.html" class="mobile-tabbar__item">الإعدادات</a></nav>
+</div>
+<script src="js/forgex-compat.js"></script>
+<script src="js/forgex-db.js"></script>
+<script src="js/forgex-utils.js"></script>
+<script src="js/forgex-pwa.js"></script>
+<script>
+(function () {
+  'use strict';
+  ForgeXDB.seedIfEmpty();
+  var esc = ForgeXUI.escapeHtml;
+  var allReports = ForgeXDB.reports.getAll();
+  var list = document.getElementById('reportsList');
+  var empty = document.getElementById('reportsEmpty');
+  var count = document.getElementById('reportCount');
+  var search = document.getElementById('reportSearch');
+
+  function render() {
+    var query = search.value.trim().toLowerCase();
+    var reports = allReports.filter(function (report) {
+      var project = ForgeXDB.projects.getById(report.projectId);
+      var projectCode = project ? project.code : '';
+      return !query || [report.number, report.template, projectCode].join(' ').toLowerCase().indexOf(query) !== -1;
+    });
+    count.textContent = reports.length + ' تقرير';
+    empty.hidden = reports.length !== 0;
+    list.innerHTML = reports.map(function (report) {
+      var project = ForgeXDB.projects.getById(report.projectId);
+      var projectName = project ? project.customerName : 'مشروع غير متاح';
+      var projectCode = project ? project.code : '—';
+      return '<a class="report-row" href="report.html?projectId=' + encodeURIComponent(report.projectId) + '">' +
+        '<div><strong class="ltr-num">' + esc(report.number || 'بدون رقم') + '</strong><span>' + esc(projectName) + '</span></div>' +
+        '<div class="report-row__meta"><span class="code-chip ltr-num">' + esc(projectCode) + '</span><small>' + esc(ForgeXDB.formatDateShort(report.createdAt)) + '</small></div>' +
+      '</a>';
+    }).join('');
+  }
+  search.addEventListener('input', render);
+  render();
+})();
+</script>
+</body>
+</html>

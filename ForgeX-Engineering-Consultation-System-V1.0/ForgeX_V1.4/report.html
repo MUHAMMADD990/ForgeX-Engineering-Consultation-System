@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForgeX — تقرير الاستشارة الهندسية</title>
+<link rel="icon" href="assets/logo1.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/forgex-core.css">
+<link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="1"/><path d="M6 17v4h12v-4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 17.5v.1"/></symbol>
+</svg>
+
+<!-- ================= ON-SCREEN TOOLBAR (hidden on print) ================= -->
+<div class="report-toolbar no-print">
+  <a href="projects.html" class="btn btn--ghost btn--sm" style="color:#fff;"><svg class="icon"><use href="#i-back"/></svg>رجوع</a>
+  <select id="templateSelect">
+    <option value="auto">اختيار تلقائي حسب نوع الخدمة</option>
+    <option value="cnc">قالب: تشغيل CNC</option>
+    <option value="laser">قالب: قص بالليزر</option>
+    <option value="reverse">قالب: الهندسة العكسية</option>
+    <option value="print3d">قالب: طباعة ثلاثية الأبعاد</option>
+    <option value="generic">قالب: عام</option>
+  </select>
+  <span class="report-toolbar__spacer"></span>
+  <button class="btn btn--primary btn--sm" id="printBtn"><svg class="icon"><use href="#i-print"/></svg>تصدير PDF (طباعة)</button>
+  <span class="report-toolbar__hint">نصيحة: فعّل خيار "رؤوس وتذييلات الصفحات" في نافذة الطباعة للحصول على ترقيم صفحات تلقائي.</span>
+</div>
+
+<div class="report-scroll">
+  <div class="report-page" id="reportPage">
+    <div class="empty-state" id="noProjectState" style="display:none;">
+      <svg class="icon icon--lg"><use href="#i-alert"/></svg>
+      <strong>لم يتم تحديد مشروع</strong>
+      <span>افتح هذه الصفحة من تفاصيل مشروع في صفحة المشاريع</span>
+    </div>
+
+    <div id="reportContent" style="display:none;">
+      <!-- ================= HEADER ================= -->
+      <div class="report-head">
+        <div class="report-head__brand">
+          <img src="assets/logo1.svg" alt="ForgeX" id="brandLogo">
+          <div><strong id="companyNameOut">ForgeX للاستشارات الهندسية</strong><span>تقرير استشارة هندسية</span></div>
+        </div>
+        <div class="report-head__meta">
+          <div class="title">تقرير استشارة هندسية</div>
+          <div>رقم التقرير: <span class="ltr-num" id="reportNumberOut">—</span></div>
+          <div>التاريخ: <span class="ltr-num" id="reportDateOut">—</span></div>
+          <div>كود المشروع: <span class="ltr-num" id="projectCodeOut">—</span></div>
+          <div style="margin-top:4px;"><span class="template-badge" id="templateBadge">عام</span></div>
+        </div>
+      </div>
+
+      <div class="report-company-strip">
+        <span id="companyAddressOut"></span>
+        <span id="companyEmailOut" class="ltr-num"></span>
+        <span id="companyPhoneOut" class="ltr-num"></span>
+      </div>
+
+      <!-- ================= CUSTOMER INFO ================= -->
+      <div class="rsec">
+        <div class="rsec__title">بيانات العميل</div>
+        <div class="rgrid" id="customerInfoOut"></div>
+      </div>
+
+      <!-- ================= PROJECT SUMMARY ================= -->
+      <div class="rsec">
+        <div class="rsec__title">ملخص المشروع</div>
+        <div class="rgrid" id="projectSummaryOut"></div>
+      </div>
+
+      <!-- ================= ENGINEERING REQUIREMENTS ================= -->
+      <div class="rsec">
+        <div class="rsec__title">المتطلبات الهندسية</div>
+        <div class="rgrid" id="engineeringReqOut"></div>
+      </div>
+
+      <!-- ================= MANUFACTURING REQUIREMENTS (template-aware) ================= -->
+      <div class="rsec">
+        <div class="rsec__title">متطلبات التصنيع</div>
+        <div class="rgrid rgrid--3" id="manufacturingReqOut"></div>
+      </div>
+
+      <!-- ================= MATERIAL + PRODUCTION ================= -->
+      <div class="rsec">
+        <div class="rsec__title">معلومات الخامة ومتطلبات الإنتاج</div>
+        <div class="rgrid rgrid--3" id="materialProductionOut"></div>
+      </div>
+
+      <!-- ================= QUALITY ================= -->
+      <div class="rsec">
+        <div class="rsec__title">متطلبات الجودة</div>
+        <div class="rgrid" id="qualityOut"></div>
+      </div>
+
+      <!-- ================= ENGINEERING NOTES ================= -->
+      <div class="rsec">
+        <div class="rsec__title">ملاحظات هندسية</div>
+        <div class="rnote" id="engineeringNotesOut">—</div>
+      </div>
+
+      <!-- ================= ATTACHED IMAGES ================= -->
+      <div class="rsec" id="imagesSection">
+        <div class="rsec__title">الصور المرفقة</div>
+        <div class="rimg-grid" id="imagesOut"></div>
+      </div>
+
+      <!-- ================= TECHNICAL RECOMMENDATIONS ================= -->
+      <div class="rsec">
+        <div class="rsec__title">التوصيات الفنية</div>
+        <textarea id="recommendationsOut" class="no-print" rows="4" style="width:100%; border:1px solid #DCE0E6; border-radius:4px; padding:8px; font-family:inherit; font-size:11px;" placeholder="اكتب توصيات المهندس هنا قبل تصدير التقرير…"></textarea>
+        <div class="rnote print-only" id="recommendationsPrintOut" style="display:none;">—</div>
+      </div>
+
+      <!-- ================= APPROVAL / SIGNATURES ================= -->
+      <div class="rsec">
+        <div class="rsec__title">قسم الاعتماد والتوقيع</div>
+        <div class="approval-grid">
+          <div class="sig-box">
+            <strong>توقيع العميل</strong>
+            <div class="sig-canvas-wrap"><canvas id="sigCustomer"></canvas></div>
+            <div class="sig-actions"><span>وقّع هنا بإصبعك أو بالفأرة</span><button type="button" data-clear-sig="sigCustomer">مسح</button></div>
+            <div class="sig-meta"><input type="text" id="custSigName" placeholder="الاسم"><input type="date" id="custSigDate"></div>
+          </div>
+          <div class="sig-box">
+            <strong>توقيع المهندس المسؤول</strong>
+            <div class="sig-canvas-wrap"><canvas id="sigEngineer"></canvas></div>
+            <div class="sig-actions"><span>وقّع هنا بإصبعك أو بالفأرة</span><button type="button" data-clear-sig="sigEngineer">مسح</button></div>
+            <div class="sig-meta"><input type="text" id="engSigName" placeholder="الاسم"><input type="date" id="engSigDate"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-footer-note">
+        <span>ForgeX Engineering Consultation System — تقرير مُولَّد آلياً</span>
+        <span class="ltr-num" id="footerStamp"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/forgex-compat.js"></script>
+<script src="js/forgex-db.js"></script>
+<script src="js/forgex-utils.js"></script>
+<script src="js/forgex-pwa.js"></script>
+<script>
+(function(){
+  'use strict';
+  ForgeXDB.seedIfEmpty();
+  var esc = ForgeXUI.escapeHtml;
+
+  var params = new URLSearchParams(window.location.search);
+  var projectId = params.get('projectId');
+  var project = projectId ? ForgeXDB.projects.getById(projectId) : null;
+
+  if(!project){
+    document.getElementById('noProjectState').style.display = 'flex';
+    document.getElementById('printBtn').disabled = true;
+    return;
+  }
+  document.getElementById('reportContent').style.display = 'block';
+
+  var customer = project.customerId ? ForgeXDB.customers.getById(project.customerId) : null;
+  var consultations = ForgeXDB.consultations.getByProject(project.id);
+  var consultation = consultations.length ? consultations[0] : null;
+  var data = consultation ? (consultation.data || {}) : {};
+  var attachments = ForgeXDB.attachments.getByProject(project.id).filter(function(a){ return a.isImage && a.dataUrl; });
+
+  function val(v){
+    if(v === undefined || v === null || v === '') return '<span class="rempty">غير محدد</span>';
+    if(Array.isArray(v)) return v.length ? esc(v.join('، ')) : '<span class="rempty">غير محدد</span>';
+    if(typeof v === 'boolean') return v ? 'نعم' : 'لا';
+    return esc(String(v));
+  }
+  function item(label, value){ return '<div class="ritem"><span class="rl">'+esc(label)+'</span><span class="rv">'+value+'</span></div>'; }
+
+  /* ---------------- HEADER / COMPANY INFO ---------------- */
+  var settings = ForgeXDB.settings.get();
+  document.getElementById('companyNameOut').textContent = settings.companyName;
+  document.getElementById('companyAddressOut').textContent = settings.address;
+  document.getElementById('companyEmailOut').textContent = settings.email;
+  document.getElementById('companyPhoneOut').textContent = settings.phone;
+  if(settings.logoDataUrl) document.getElementById('brandLogo').src = settings.logoDataUrl;
+  document.getElementById('projectCodeOut').textContent = project.code;
+
+  /* ---------------- REPORT NUMBER — reuse if this project+template already has one ---------------- */
+  var existingReports = ForgeXDB.reports.getAll().filter(function(r){ return r.projectId === project.id; });
+  var reportRecord = existingReports[0];
+  if(!reportRecord){
+    reportRecord = ForgeXDB.reports.create({ projectId: project.id, number: ForgeXDB.reports.nextNumber(), template: 'auto' });
+  }
+  document.getElementById('reportNumberOut').textContent = reportRecord.number;
+  document.getElementById('reportDateOut').textContent = ForgeXDB.formatDateFull(new Date().toISOString());
+  document.getElementById('footerStamp').textContent = reportRecord.number + ' — ' + ForgeXDB.formatDateFull(new Date().toISOString());
+
+  /* ---------------- CUSTOMER INFO ---------------- */
+  document.getElementById('customerInfoOut').innerHTML =
+    item('اسم الشركة', val(customer ? customer.companyName : project.customerName)) +
+    item('الشخص المسؤول', val(customer ? customer.contactPerson : data.contactName)) +
+    item('البريد الإلكتروني', val(customer ? customer.email : data.email)) +
+    item('رقم الهاتف', val(customer ? customer.phone : data.phone)) +
+    item('القطاع الصناعي', val(customer ? customer.industry : data.industry)) +
+    item('العنوان', val(customer ? undefined : data.address));
+
+  /* ---------------- PROJECT SUMMARY ---------------- */
+  document.getElementById('projectSummaryOut').innerHTML =
+    item('اسم المشروع', val(data.projectName)) +
+    item('نوع المشروع', val(data.projectType)) +
+    item('الحالة الحالية', val(project.status)) +
+    item('المهندس المسؤول', val(project.engineer)) +
+    item('الأولوية', val(data.priority)) +
+    item('وصف المشروع', val(data.projectDescription));
+
+  /* ---------------- ENGINEERING REQUIREMENTS ---------------- */
+  document.getElementById('engineeringReqOut').innerHTML =
+    item('مستوى التفاوت', val(data.tolerance)) +
+    item('تشطيب السطح', val(data.surfaceFinish)) +
+    item('المعايير الفنية', val(data.standards));
+
+  /* ---------------- TEMPLATE DETECTION ---------------- */
+  var TEMPLATE_LABELS = { cnc:'تشغيل CNC', laser:'قص بالليزر', reverse:'الهندسة العكسية', print3d:'طباعة ثلاثية الأبعاد', generic:'عام' };
+  function detectTemplate(){
+    var svc = (project.serviceType || '') + ' ' + (Array.isArray(data.serviceType) ? data.serviceType.join(' ') : '');
+    if(svc.indexOf('ليزر') !== -1) return 'laser';
+    if(svc.indexOf('CNC') !== -1) return 'cnc';
+    if(svc.indexOf('عكسية') !== -1) return 'reverse';
+    if(svc.indexOf('ثلاثية') !== -1) return 'print3d';
+    return 'generic';
+  }
+
+  function renderManufacturing(tpl){
+    var out = document.getElementById('manufacturingReqOut');
+    var badge = document.getElementById('templateBadge');
+    badge.textContent = 'قالب: ' + TEMPLATE_LABELS[tpl];
+
+    if(tpl === 'cnc'){
+      out.innerHTML =
+        item('الخامة', val(data.cncMaterial || data.materialType)) + item('الأبعاد', val(data.cncDimensions)) +
+        item('التفاوت المطلوب', val(data.cncTolerance)) + item('تشطيب السطح', val(data.cncSurfaceFinish)) +
+        item('القياسات اللولبية', val(data.cncThreads)) + item('متطلبات التثبيت', val(data.cncFixture)) +
+        item('متطلبات برمجة CAM', val(data.cncCamRequirements)) + item('الكمية', val(data.quantity));
+    } else if(tpl === 'laser'){
+      out.innerHTML =
+        item('سماكة الخامة', val(data.laserThickness)) + item('مقاس الصفيحة', val(data.laserSheetSize)) +
+        item('تفاوت القص', val(data.laserTolerance)) + item('الكمية', val(data.laserQuantity || data.quantity)) +
+        item('متطلبات التشطيب', val(data.laserFinish));
+    } else if(tpl === 'reverse'){
+      out.innerHTML =
+        item('حالة القطعة الحالية', val(data.existingPartCondition)) + item('الدقة المطلوبة', val(data.requiredAccuracy)) +
+        item('القياسات الأولية', val(data.measurements)) + item('متطلبات إعادة التصميم', val(data.redesignRequirements));
+    } else if(tpl === 'print3d'){
+      out.innerHTML =
+        item('تقنية الطباعة', val(data.printTechnology)) + item('الخامة', val(data.printMaterial)) +
+        item('جودة الطبقات', val(data.printLayerQuality)) + item('متطلبات النموذج الأولي', val(data.printPrototypeRequirements));
+    } else {
+      out.innerHTML =
+        item('نوع الخدمة', val(project.serviceType)) + item('نوع الخامة', val(data.materialType)) +
+        item('الكمية', val(data.quantity)) + item('نوع الإنتاج', val(data.productionType));
+    }
+  }
+
+  var templateSelect = document.getElementById('templateSelect');
+  templateSelect.value = 'auto';
+  templateSelect.addEventListener('change', function(){
+    var tpl = templateSelect.value === 'auto' ? detectTemplate() : templateSelect.value;
+    renderManufacturing(tpl);
+  });
+  renderManufacturing(detectTemplate());
+
+  /* ---------------- MATERIAL / PRODUCTION ---------------- */
+  document.getElementById('materialProductionOut').innerHTML =
+    item('نوع الخامة العام', val(data.materialType)) + item('الكمية الإجمالية', val(data.quantity)) + item('نوع الإنتاج', val(data.productionType));
+
+  /* ---------------- QUALITY ---------------- */
+  document.getElementById('qualityOut').innerHTML =
+    item('معيار الجودة', val(data.qualityStandard)) + item('شهادة مطابقة (CoC)', val(data.cocRequired)) +
+    item('نوع الفحص', val(data.inspectionType)) + item('ملاحظات الجودة', val(data.qualityNotes));
+
+  /* ---------------- ENGINEERING NOTES ---------------- */
+  document.getElementById('engineeringNotesOut').innerHTML = data.engineeringNotes ? esc(data.engineeringNotes) : '<span class="rempty">لا توجد ملاحظات إضافية</span>';
+
+  /* ---------------- IMAGES ---------------- */
+  var imagesOut = document.getElementById('imagesOut');
+  if(attachments.length){
+    imagesOut.innerHTML = attachments.map(function(a){ return '<img src="'+a.dataUrl+'" alt="'+esc(a.name)+'">'; }).join('');
+  } else {
+    document.getElementById('imagesSection').style.display = 'none';
+  }
+
+  /* ---------------- RECOMMENDATIONS (editable, mirrored to print view) ---------------- */
+  var recoInput = document.getElementById('recommendationsOut');
+  var recoPrint = document.getElementById('recommendationsPrintOut');
+  window.addEventListener('beforeprint', function(){
+    recoPrint.textContent = recoInput.value.trim() || 'لا توجد توصيات إضافية';
+    recoPrint.style.display = 'block';
+    recoInput.style.display = 'none';
+  });
+  window.addEventListener('afterprint', function(){
+    recoPrint.style.display = 'none';
+    recoInput.style.display = 'block';
+  });
+
+  /* ---------------- SIGNATURE PADS (touch + mouse) ---------------- */
+  function setupSignaturePad(canvasId){
+    var canvas = document.getElementById(canvasId);
+    var ctx = canvas.getContext('2d');
+    var drawing = false;
+    var ratio = window.devicePixelRatio || 1;
+
+    function resize(){
+      var rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.scale(ratio, ratio);
+      ctx.strokeStyle = '#1F2937';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function pos(e){
+      var rect = canvas.getBoundingClientRect();
+      var point = e.touches ? e.touches[0] : e;
+      return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+    }
+    function start(e){ drawing = true; var p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }
+    function move(e){ if(!drawing) return; var p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }
+    function end(){ drawing = false; }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseleave', end);
+    canvas.addEventListener('touchstart', start, { passive:false });
+    canvas.addEventListener('touchmove', move, { passive:false });
+    canvas.addEventListener('touchend', end);
+  }
+  setupSignaturePad('sigCustomer');
+  setupSignaturePad('sigEngineer');
+  document.querySelectorAll('[data-clear-sig]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var canvas = document.getElementById(btn.dataset.clearSig);
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  });
+
+  /* ---------------- PRINT ---------------- */
+  document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+})();
+</script>
+</body>
+</html>

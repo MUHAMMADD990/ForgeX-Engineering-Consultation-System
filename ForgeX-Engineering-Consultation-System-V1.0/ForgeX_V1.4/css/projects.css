@@ -8,7 +8,7 @@
 .toolbar__sort{min-height:var(--tap-min); border-radius:var(--radius-md); border:1.5px solid var(--fx-gray-300); padding-inline:var(--sp-4); background:var(--surface-card);}
 .status-filters{display:flex; gap:var(--sp-2); overflow-x:auto; padding-bottom:2px; -webkit-overflow-scrolling:touch; margin-bottom:var(--sp-4);}
 .status-chip{flex-shrink:0; padding:8px 14px; border-radius:var(--radius-full); font-size:.76rem; font-weight:700; border:1.5px solid var(--fx-gray-200); color:var(--fx-gray-600); background:var(--surface-card); min-height:38px;}
-.status-chip.is-active{background:var(--fx-primary); border-color:var(--fx-primary); color:var(--fx-white);}
+.status-chip.is-active{background:var(--fx-navy-900); border-color:var(--fx-navy-900); color:var(--fx-white);}
 .result-count{font-size:.78rem; color:var(--fx-gray-500); font-weight:600; white-space:nowrap;}
 
 .projects-table{width:100%; border-collapse:collapse; display:none;}
