@@ -1,0 +1,78 @@
+/* ==========================================================================
+   report.css — Printable A4 Engineering Report
+   ========================================================================== */
+
+/* ---- on-screen toolbar (hidden on print) ---- */
+.report-toolbar{
+  position:sticky; top:0; z-index:200; background:var(--fx-navy-900); color:var(--fx-white);
+  display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3) var(--sp-5); flex-wrap:wrap;
+  border-bottom:1px solid var(--fx-primary);
+}
+.report-toolbar select{min-height:40px; border-radius:var(--radius-md); border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:#fff; padding-inline:var(--sp-3);}
+.report-toolbar__spacer{flex:1;}
+.report-toolbar__hint{font-size:.72rem; color:var(--fx-gray-400); width:100%;}
+
+/* ---- page shell (screen) ---- */
+.report-scroll{background:#7B8798; min-height:100dvh; padding:var(--sp-7) var(--sp-3);}
+.report-page{
+  width:210mm; min-height:297mm; margin-inline:auto; background:#fff; color:#1a2230;
+  box-shadow:0 12px 40px rgba(0,0,0,.35); padding:14mm 14mm 18mm;
+  font-family:var(--font-body); font-size:12px; line-height:1.6;
+}
+.report-page + .report-page{margin-top:var(--sp-6);}
+
+/* ---- report header ---- */
+.report-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; border-bottom:3px solid #B71C1C; padding-bottom:10px; margin-bottom:14px;}
+.report-head__brand{display:flex; align-items:center; gap:10px;}
+.report-head__brand img{width:132px; height:44px; object-fit:contain;}
+.report-head__brand strong{display:block; font-family:var(--font-display); font-weight:800; font-size:15px; color:#1F2937;}
+.report-head__brand span{font-size:10px; color:#758093;}
+.report-head__meta{text-align:end; font-size:10px; color:#4C5768;}
+.report-head__meta .title{font-family:var(--font-display); font-weight:800; font-size:13px; color:#1F2937; margin-bottom:2px;}
+.report-head__meta .ltr-num{font-family:var(--font-mono); direction:ltr; unicode-bidi:isolate;}
+
+.report-company-strip{display:flex; justify-content:space-between; gap:10px; font-size:10px; color:#4C5768; margin-bottom:16px; flex-wrap:wrap;}
+.report-company-strip span{display:inline-flex; align-items:center; gap:4px;}
+
+/* ---- sections ---- */
+.rsec{margin-bottom:14px; break-inside:avoid;}
+.rsec__title{font-family:var(--font-display); font-weight:800; font-size:12.5px; color:#fff; background:#1F2937; padding:5px 10px; border-inline-start:4px solid #B71C1C; margin-bottom:8px;}
+.rgrid{display:grid; grid-template-columns:1fr 1fr; gap:6px 16px;}
+.rgrid--3{grid-template-columns:1fr 1fr 1fr;}
+.ritem{font-size:11px;}
+.ritem .rl{display:block; font-size:9.5px; color:#758093; font-weight:700; margin-bottom:1px;}
+.ritem .rv{color:#1F2937; font-weight:600;}
+.rnote{font-size:11px; color:#232B36; background:#F5F6F8; border-radius:4px; padding:8px 10px; white-space:pre-wrap;}
+.rempty{color:#9AA3B0; font-style:normal;}
+
+.rimg-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+.rimg-grid img{width:100%; height:70px; object-fit:cover; border-radius:4px; border:1px solid #DCE0E6;}
+
+/* ---- approval / signatures ---- */
+.approval-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:6px;}
+.sig-box{border:1px solid #DCE0E6; border-radius:6px; padding:10px;}
+.sig-box strong{display:block; font-size:11px; margin-bottom:6px; color:#0D1E33;}
+.sig-canvas-wrap{border:1px dashed #C2C8D1; border-radius:4px; background:#fff; touch-action:none;}
+.sig-canvas-wrap canvas{width:100%; height:90px; display:block; cursor:crosshair;}
+.sig-actions{display:flex; justify-content:space-between; align-items:center; margin-top:4px;}
+.sig-actions button{font-size:10px; color:#B71C1C; background:none; border:none; cursor:pointer;}
+.sig-meta{display:flex; gap:8px; margin-top:8px;}
+.sig-meta input{flex:1; font-size:10px; border:none; border-bottom:1px solid #C2C8D1; padding:2px 0; font-family:inherit; color:#232B36;}
+
+.report-footer-note{margin-top:16px; padding-top:8px; border-top:1px solid #DCE0E6; font-size:9px; color:#9AA3B0; display:flex; justify-content:space-between;}
+
+/* ---- template chips ---- */
+.template-badge{display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; background:rgba(183,28,28,.12); color:#B71C1C;}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print{
+  @page{ size:A4; margin:12mm; }
+  html,body{background:#fff !important;}
+  .no-print, .report-toolbar, .app-shell > .topbar, .sidebar, .mobile-tabbar{display:none !important;}
+  .report-scroll{background:#fff; padding:0; min-height:0;}
+  .report-page{box-shadow:none; margin:0; padding:0; width:auto; min-height:0;}
+  .rsec{break-inside:avoid;}
+  a{color:inherit; text-decoration:none;}
+}

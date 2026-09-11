@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<script src="js/forgex-auth.js"></script>
 <title>ForgeX — معالج الاستشارة الهندسية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,20 +62,20 @@ svg{display:block; flex-shrink:0;}
   border-bottom:1px solid var(--fx-primary); box-shadow:0 2px 14px rgba(8,20,34,.35);
 }
 .wizard-header__brand{display:flex; align-items:center; gap:var(--sp-3);}
-.wizard-header__mark{width:132px;height:46px;border-radius:var(--radius-sm); background:transparent;
+.wizard-header__mark{width:132px;height:44px;border-radius:var(--radius-sm); background:transparent;
   display:grid; place-items:center; font-family:var(--font-display); font-weight:900; font-size:1rem;}
-.wizard-header__mark img{width:100%; height:100%; object-fit:contain; transform:translateY(-6px);}
+.wizard-header__mark img{width:100%; height:100%; object-fit:contain; transform:translateY(-15px);}
 .wizard-header__title{display:flex; flex-direction:column; line-height:1.15;}
-.wizard-header__title strong{font-size:1rem; font-weight:800;}
-.wizard-header__title span{font-size:.7rem; color:var(--fx-gray-400);}
+.wizard-header__title strong{font-size:.95rem; font-weight:800;}
+.wizard-header__title span{font-size:.68rem; color:var(--fx-gray-400);}
 .autosave-status{
   display:flex; align-items:center; gap:var(--sp-2); font-size:.72rem; color:var(--fx-gray-300); font-weight:600;
   margin-inline-start:auto; background:rgba(255,255,255,.06); padding:6px var(--sp-3); border-radius:var(--radius-full);
 }
 .autosave-status__dot{width:7px; height:7px; border-radius:50%; background:var(--fx-success); flex-shrink:0;}
 .autosave-status--saving .autosave-status__dot{background:var(--fx-warning); animation:fx-blink 1s infinite;}
-.wizard-header__close{width:var(--tap-min); height:var(--tap-min); border-radius:var(--radius-md); display:grid; place-items:center; color:var(--fx-white); flex-shrink:0; border:1px solid rgba(183,28,28,.45); background:rgba(183,28,28,.22); font-size:1.45rem; line-height:1; font-weight:900; padding:0;}
-.wizard-header__close:hover{background:rgba(183,28,28,.32); border-color:rgba(183,28,28,.65);}
+.wizard-header__close{width:var(--tap-min); height:var(--tap-min); border-radius:var(--radius-md); display:grid; place-items:center; color:var(--fx-gray-300); flex-shrink:0;}
+.wizard-header__close:hover{background:rgba(255,255,255,.1); color:var(--fx-white);}
 
 /* ---- resume draft banner ---- */
 .resume-banner{
@@ -125,43 +124,13 @@ svg{display:block; flex-shrink:0;}
 .wizard-main{flex:1; padding:var(--sp-5) var(--sp-4) calc(var(--wizard-footer-h) + var(--sp-6)); max-width:900px; margin-inline:auto; width:100%;}
 .wizard-card{background:var(--fx-white); border:1px solid var(--fx-gray-200); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--sp-6);}
 .entry-choice{display:none;}
-.wizard-shell.is-entry .wizard-header{display:none;}
 .wizard-shell.is-entry .wizard-progress-wrap,.wizard-shell.is-entry .resume-banner,.wizard-shell.is-entry .wizard-card,.wizard-shell.is-entry .wizard-footer{display:none;}
-.wizard-shell.is-entry .wizard-main{display:flex; align-items:center; justify-content:center; padding-top:var(--sp-6);}
-.wizard-shell.is-entry .entry-choice{
-  display:block; width:100%; max-width:900px; background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,246,248,0.96));
-  border:1px solid rgba(28,40,54,0.08); border-radius:28px; box-shadow:0 18px 48px rgba(31,41,55,0.12);
-  padding:var(--sp-6); text-align:center; animation:fx-fade-up var(--dur-slow) var(--ease-out) both;
-}
-.entry-choice__brand{
-  display:flex; align-items:center; justify-content:center; gap:var(--sp-3); width:min(460px, 100%); margin:0 auto var(--sp-5);
-  padding:var(--sp-4) var(--sp-6); border-radius:22px; background:linear-gradient(135deg, rgba(31,41,55,0.98), rgba(43,53,67,0.96));
-  border:1px solid rgba(255,255,255,0.06); box-shadow:0 10px 22px rgba(31,41,55,0.16);
-}
-.entry-choice__mark{width:96px; height:48px; display:grid; place-items:center; flex-shrink:0;}
-.entry-choice__mark img{width:100%; height:100%; object-fit:contain; transform:translateY(-1px);}
-.entry-choice__brand-copy{display:flex; flex-direction:column; align-items:flex-start; color:var(--fx-white);}
-.entry-choice__brand-copy strong{font-size:1.05rem; font-weight:900; line-height:1.1;}
-.entry-choice__brand-copy span{font-size:.72rem; color:rgba(255,255,255,0.8);}
-.entry-choice__content{margin-bottom:var(--sp-5);}
-.entry-choice h1{font-size:1.72rem; margin-bottom:var(--sp-2); letter-spacing:-.02em;}
-.entry-choice p{color:var(--fx-gray-500); margin-bottom:0; font-size:1rem;}
-.entry-choice__actions{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--sp-4);}
-.entry-choice__actions .btn{
-  min-height:122px; justify-content:center; flex-direction:column; gap:var(--sp-2); padding:var(--sp-4);
-  border-radius:20px; box-shadow:0 8px 18px rgba(31,41,55,0.08); border:1px solid rgba(28,40,54,0.08);
-  font-size:1rem; font-weight:800; transition:transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
-}
-.entry-choice__actions .btn:hover{transform:translateY(-2px); box-shadow:0 12px 22px rgba(31,41,55,0.10);}
-.entry-choice__actions .btn--primary{
-  min-height:128px; background:linear-gradient(180deg, #8F1E1E, #741818); border-color:rgba(116,24,24,0.35);
-  box-shadow:0 14px 28px rgba(116,24,24,0.22);
-}
-.entry-choice__actions .btn--outline{
-  background:linear-gradient(180deg, #ffffff, #f8f9fb); border-color:rgba(28,40,54,0.12);
-}
-.entry-choice__actions .btn .icon{width:22px; height:22px;}
-@media (max-width:560px){.entry-choice__actions{grid-template-columns:1fr;}}
+.wizard-shell.is-entry .wizard-main{display:flex; align-items:center; justify-content:center;}
+.wizard-shell.is-entry .entry-choice{display:block; width:100%; max-width:680px; background:var(--fx-white); border:1px solid var(--fx-gray-200); border-radius:var(--radius-lg); box-shadow:var(--shadow-md); padding:var(--sp-7) var(--sp-6); text-align:center; animation:fx-fade-up var(--dur-slow) var(--ease-out) both;}
+.entry-choice h1{font-size:1.5rem; margin-bottom:var(--sp-2);}
+.entry-choice p{color:var(--fx-gray-500); margin-bottom:var(--sp-6);}
+.entry-choice__actions{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--sp-4);}
+.entry-choice__actions .btn{min-height:76px; justify-content:center; flex-direction:column; gap:var(--sp-2);}
 @media (max-width:560px){.entry-choice__actions{grid-template-columns:1fr;}}
 
 .step-panel{display:none;}
@@ -382,7 +351,9 @@ svg{display:block; flex-shrink:0;}
       <span class="autosave-status__dot"></span>
       <span class="autosave-text" id="autosaveText">تم الحفظ التلقائي</span>
     </div>
-    <button class="wizard-header__close" id="closeWizardBtn" type="button" aria-label="خروج" title="خروج" data-logout>×</button>
+    <button class="wizard-header__close" id="closeWizardBtn" aria-label="إغلاق المعالج" title="إغلاق">
+      <svg class="icon"><use href="#i-close"/></svg>
+    </button>
   </header>
 
   <!-- ================= RESUME DRAFT BANNER ================= -->
@@ -407,20 +378,10 @@ svg{display:block; flex-shrink:0;}
   <!-- ================= MAIN ================= -->
   <main class="wizard-main">
     <section class="entry-choice" id="entryChoice">
-      <div class="entry-choice__brand">
-        <div class="entry-choice__mark"><img src="assets/logo1.svg" alt="ForgeX"></div>
-        <div class="entry-choice__brand-copy">
-          <strong>ForgeX</strong>
-          <span>نظام الاستشارات الهندسية</span>
-        </div>
-      </div>
-      <div class="entry-choice__content">
-        <h1>ماذا تريد أن تفعل؟</h1>
-        <p>اختر المهمة المطلوبة الآن، ثم تابع إلى الصفحة المناسبة بدقة وسرعة.</p>
-      </div>
+      <h1>ماذا تريد أن تفعل؟</h1>
+      <p>اختر إنشاء استشارة جديدة أو مراجعة الاستشارات المحفوظة.</p>
       <div class="entry-choice__actions">
         <button type="button" class="btn btn--primary" id="startNewConsultationBtn"><svg class="icon"><use href="#i-clipboard"/></svg>استشارة جديدة</button>
-        <a href="pricing.html" class="btn btn--outline"><svg class="icon"><use href="#i-file"/></svg>التسعير</a>
         <a href="projects.html" class="btn btn--outline"><svg class="icon"><use href="#i-clipboard"/></svg>الاستشارات القديمة</a>
       </div>
     </section>
@@ -1004,11 +965,6 @@ svg{display:block; flex-shrink:0;}
 </div>
 
 <script src="js/forgex-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  window.FORGEX_SUPABASE_URL = 'https://xsieblokpknagcpcyovl.supabase.co';
-  window.FORGEX_SUPABASE_ANON_KEY = 'sb_publishable_Lc8YCblx0dv2Y-fcpTij4g_Hxm3t_nm';
-</script>
 <script src="js/forgex-db.js"></script>
 <script src="js/forgex-utils.js"></script>
 <script src="js/forgex-pwa.js"></script>
@@ -1743,6 +1699,17 @@ svg{display:block; flex-shrink:0;}
 
   document.getElementById('newConsultationBtn').addEventListener('click', function(){
     window.location.reload();
+  });
+
+  document.getElementById('closeWizardBtn').addEventListener('click', function(){
+    var proceed = window.ForgeXUI
+      ? ForgeXUI.confirm('سيتم حفظ التقدم الحالي كمسودة. هل تريد الخروج من المعالج؟', 'الخروج من المعالج')
+      : Promise.resolve(confirm('سيتم حفظ التقدم الحالي كمسودة. هل تريد الخروج من المعالج؟'));
+    proceed.then(function(ok){
+      if(!ok) return;
+      saveDraft();
+      window.location.href = 'index.html';
+    });
   });
 
   /* ============================================================

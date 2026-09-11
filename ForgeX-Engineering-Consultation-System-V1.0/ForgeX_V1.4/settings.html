@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<script src="js/forgex-auth.js"></script>
 <title>ForgeX — الإعدادات</title>
 <link rel="icon" href="assets/logo1.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +33,7 @@
       <div class="topbar__mark"><img src="assets/logo1.svg" alt="ForgeX"></div>
       <div class="topbar__title"><strong>ForgeX</strong><span>نظام الاستشارات الهندسية</span></div>
     </a>
-    <div class="topbar__actions" style="margin-inline-start:auto;"><button class="topbar-logout" type="button" data-logout aria-label="خروج" title="خروج">×</button><div class="avatar">م.س</div></div>
+    <div class="topbar__actions" style="margin-inline-start:auto;"><div class="avatar">م.س</div></div>
   </header>
 
   <div class="layout">
@@ -159,12 +158,12 @@
           <div class="about-list">
             <div class="item"><span class="label">عدد العملاء</span><span id="aboutCustomerCount" class="ltr-num">0</span></div>
             <div class="item"><span class="label">عدد المشاريع</span><span id="aboutProjectCount" class="ltr-num">0</span></div>
-            <div class="item"><span class="label">وضع التخزين</span><span>مشترك عبر السيرفر (Shared State)</span></div>
+            <div class="item"><span class="label">وضع التخزين</span><span>محلي (LocalStorage)</span></div>
             <div class="item"><span class="label">اللغة</span><span>العربية (RTL)</span></div>
           </div>
           <div class="hint" style="margin-top:var(--sp-5); line-height:1.8;">
-            ForgeX الآن يحافظ على البيانات عبر خادم مشترك، بحيث تظهر نفس السجلات على أي جهاز يدخل إلى نفس المشروع.
-            طبقة قاعدة البيانات (js/forgex-db.js) تستعمل هذا الخادم كطبقة تخزين مشتركة مع الحفاظ على نفس واجهة التطبيق الحالية.
+            ForgeX يعمل بالكامل داخل المتصفح دون الحاجة لاتصال بالإنترنت أو خادم خلفي — جميع البيانات محفوظة محلياً على هذا الجهاز فقط.
+            طبقة قاعدة البيانات (js/forgex-db.js) مصمّمة لتكون نقطة الاستبدال الوحيدة عند الانتقال مستقبلاً إلى قاعدة بيانات سحابية.
           </div>
         </div>
       </section>
@@ -181,11 +180,6 @@
 </div>
 
 <script src="js/forgex-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  window.FORGEX_SUPABASE_URL = 'https://xsieblokpknagcpcyovl.supabase.co';
-  window.FORGEX_SUPABASE_ANON_KEY = 'sb_publishable_Lc8YCblx0dv2Y-fcpTij4g_Hxm3t_nm';
-</script>
 <script src="js/forgex-db.js"></script>
 <script src="js/forgex-utils.js"></script>
 <script src="js/forgex-pwa.js"></script>

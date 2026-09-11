@@ -14,12 +14,6 @@
   'use strict';
 
   var APP_VERSION = '1.0.0';
-  var SUPABASE_CONFIG = {
-    url: global.FORGEX_SUPABASE_URL || '',
-    anonKey: global.FORGEX_SUPABASE_ANON_KEY || '',
-    table: global.FORGEX_SUPABASE_TABLE || 'app_state',
-    rowId: global.FORGEX_SUPABASE_ROW || 'forgex'
-  };
 
   var KEYS = {
     customers: 'forgex.customers',
@@ -65,113 +59,10 @@
     }
   }
 
-  function getStateSnapshot() {
-    return {
-      customers: read(KEYS.customers, []),
-      projects: read(KEYS.projects, []),
-      consultations: read(KEYS.consultations, []),
-      attachments: read(KEYS.attachments, []),
-      reports: read(KEYS.reports, []),
-      meetings: read(KEYS.meetings, []),
-      settings: read(KEYS.settings, {}),
-      users: read(KEYS.users, []),
-      draft: read(KEYS.draft, null),
-      meta: read(KEYS.meta, {}),
-      autoBackup: read(KEYS.autoBackup, null),
-      initialized: !!read(KEYS.customers, null)
-    };
-  }
-
-  function getSupabaseClient() {
-    if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey || !global.supabase || !global.supabase.createClient) return null;
-    if (!global.__forgexSupabaseClient) {
-      global.__forgexSupabaseClient = global.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-    }
-    return global.__forgexSupabaseClient;
-  }
-
-  function applyStateSnapshot(state) {
-    var payload = state || {};
-    var fieldMap = {
-      customers: KEYS.customers,
-      projects: KEYS.projects,
-      consultations: KEYS.consultations,
-      attachments: KEYS.attachments,
-      reports: KEYS.reports,
-      meetings: KEYS.meetings,
-      settings: KEYS.settings,
-      users: KEYS.users,
-      draft: KEYS.draft,
-      meta: KEYS.meta,
-      autoBackup: KEYS.autoBackup
-    };
-
-    Object.keys(fieldMap).forEach(function (field) {
-      var value = payload[field];
-      if (field === 'settings' && (value === null || value === undefined || typeof value !== 'object')) value = {};
-      if (field === 'meta' && (value === null || value === undefined || typeof value !== 'object')) value = {};
-      if (field === 'customers' && !Array.isArray(value)) value = [];
-      if (field === 'projects' && !Array.isArray(value)) value = [];
-      if (field === 'consultations' && !Array.isArray(value)) value = [];
-      if (field === 'attachments' && !Array.isArray(value)) value = [];
-      if (field === 'reports' && !Array.isArray(value)) value = [];
-      if (field === 'meetings' && !Array.isArray(value)) value = [];
-      if (field === 'users' && !Array.isArray(value)) value = [];
-      if (field === 'draft' && (value === null || value === undefined)) value = null;
-      if (field === 'autoBackup' && (value === null || value === undefined)) value = null;
-
-      localStorage.setItem(fieldMap[field], JSON.stringify(value));
-    });
-  }
-
-  function loadSupabaseStateAsync() {
-    var supabase = getSupabaseClient();
-    if (!supabase) return false;
-
-    supabase.from(SUPABASE_CONFIG.table)
-      .select('data')
-      .eq('id', SUPABASE_CONFIG.rowId)
-      .maybeSingle()
-      .then(function (result) {
-        if (result.error && result.error.code !== 'PGRST116') {
-          console.warn('ForgeXDB: could not load Supabase state', result.error);
-          return;
-        }
-        if (result.data && result.data.data) {
-          applyStateSnapshot(result.data.data);
-        }
-      })
-      .catch(function (err) {
-        console.warn('ForgeXDB: could not load Supabase state', err);
-      });
-
-    return true;
-  }
-
-  function syncSupabaseStateAsync() {
-    var supabase = getSupabaseClient();
-    if (!supabase) return false;
-
-    var snapshot = getStateSnapshot();
-    supabase.from(SUPABASE_CONFIG.table)
-      .upsert([{ id: SUPABASE_CONFIG.rowId, data: snapshot }], { onConflict: 'id' })
-      .then(function (result) {
-        if (result.error) {
-          console.warn('ForgeXDB: could not sync Supabase state', result.error);
-        }
-      })
-      .catch(function (err) {
-        console.warn('ForgeXDB: could not sync Supabase state', err);
-      });
-
-    return true;
-  }
-
   function write(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
       global.dispatchEvent(new CustomEvent('forgex:db:change', { detail: { key: key } }));
-      syncSupabaseStateAsync();
       return true;
     } catch (err) {
       console.warn('ForgeXDB: could not write', key, err);
@@ -435,7 +326,6 @@
   }
   function wipeAllData() {
     Object.keys(KEYS).forEach(function (k) { try { localStorage.removeItem(KEYS[k]); } catch (e) {} });
-    syncSupabaseStateAsync();
   }
 
   function formatDateShort(iso) {
@@ -479,8 +369,6 @@
 
     settings.update({});
   }
-
-  loadSupabaseStateAsync();
 
   var ForgeXDB = {
     VERSION: APP_VERSION,
