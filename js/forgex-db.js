@@ -90,6 +90,12 @@
     return global.__forgexSupabaseClient;
   }
 
+  function clearLocalForgeXState() {
+    Object.keys(KEYS).forEach(function (key) {
+      try { localStorage.removeItem(KEYS[key]); } catch (e) {}
+    });
+  }
+
   function applyStateSnapshot(state) {
     var payload = state || {};
     var fieldMap = {
@@ -124,28 +130,43 @@
     });
   }
 
-  function loadSupabaseStateAsync() {
-    var supabase = getSupabaseClient();
-    if (!supabase) return false;
+  function loadSupabaseStateSync() {
+    if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) return false;
 
-    supabase.from(SUPABASE_CONFIG.table)
-      .select('data')
-      .eq('id', SUPABASE_CONFIG.rowId)
-      .maybeSingle()
-      .then(function (result) {
-        if (result.error && result.error.code !== 'PGRST116') {
-          console.warn('ForgeXDB: could not load Supabase state', result.error);
-          return;
-        }
-        if (result.data && result.data.data) {
-          applyStateSnapshot(result.data.data);
-        }
-      })
-      .catch(function (err) {
-        console.warn('ForgeXDB: could not load Supabase state', err);
-      });
+    try {
+      var requestUrl = SUPABASE_CONFIG.url + '/rest/v1/' + encodeURIComponent(SUPABASE_CONFIG.table)
+        + '?select=data&id=eq.' + encodeURIComponent(SUPABASE_CONFIG.rowId);
+      var request = new XMLHttpRequest();
+      request.open('GET', requestUrl, false);
+      request.setRequestHeader('apikey', SUPABASE_CONFIG.anonKey);
+      request.setRequestHeader('Authorization', 'Bearer ' + SUPABASE_CONFIG.anonKey);
+      request.setRequestHeader('Accept', 'application/json');
+      request.send(null);
 
-    return true;
+      if (request.status < 200 || request.status >= 300) {
+        clearLocalForgeXState();
+        return false;
+      }
+
+      var parsed = JSON.parse(request.responseText || '[]');
+      if (!Array.isArray(parsed) || !parsed.length) {
+        clearLocalForgeXState();
+        return false;
+      }
+
+      var payload = parsed[0] && parsed[0].data ? parsed[0].data : null;
+      if (!payload) {
+        clearLocalForgeXState();
+        return false;
+      }
+
+      applyStateSnapshot(payload);
+      return true;
+    } catch (err) {
+      console.warn('ForgeXDB: could not load Supabase state', err);
+      clearLocalForgeXState();
+      return false;
+    }
   }
 
   function syncSupabaseStateAsync() {
@@ -480,7 +501,7 @@
     settings.update({});
   }
 
-  loadSupabaseStateAsync();
+  loadSupabaseStateSync();
 
   var ForgeXDB = {
     VERSION: APP_VERSION,
