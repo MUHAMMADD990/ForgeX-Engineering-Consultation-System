@@ -348,6 +348,10 @@
     remove: function (id) {
       var list = read(KEYS.attachments, []);
       write(KEYS.attachments, list.filter(function (a) { return a.id !== id; }));
+    },
+    removeByProject: function (projectId) {
+      var list = read(KEYS.attachments, []);
+      write(KEYS.attachments, list.filter(function (a) { return a.projectId !== projectId; }));
     }
   };
 

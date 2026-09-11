@@ -107,6 +107,7 @@
       <button class="btn btn--ghost" id="viewCustomerBtn"><svg class="icon"><use href="#i-building"/></svg>ملف العميل</button>
       <a class="btn btn--outline" id="generateReportBtn" href="#"><svg class="icon"><use href="#i-pdf"/></svg>إنشاء تقرير PDF</a>
       <button class="btn btn--outline" id="editProjectBtn"><svg class="icon"><use href="#i-edit"/></svg>تعديل البيانات</button>
+      <button class="btn btn--danger" id="deleteProjectBtn"><svg class="icon"><use href="#i-close"/></svg>حذف المشروع</button>
       <button class="btn btn--primary" id="saveProjectBtn" style="display:none">حفظ التعديل</button>
       <button class="btn btn--primary" id="saveStatusBtn">حفظ الحالة</button>
     </div>
@@ -368,14 +369,22 @@
     var serviceType = document.getElementById('editServiceType');
     var engineer = document.getElementById('editEngineer');
     if(!customerName.reportValidity() || !serviceType.reportValidity() || !engineer.reportValidity()) return;
-    var currentProject = ForgeXDB.projects.getById(activeProjectId);
     ForgeXDB.projects.update(activeProjectId, {customerName:customerName.value.trim(), serviceType:serviceType.value.trim(), engineer:engineer.value.trim()});
-    if(currentProject && currentProject.customerId){
-      ForgeXDB.customers.update(currentProject.customerId, {companyName:customerName.value.trim()});
-    }
     detailModal.classList.remove('is-open');
     render();
-    ForgeXUI.toast('تم تعديل بيانات الاستشارة', 'success');
+    ForgeXUI.toast('تم تعديل بيانات المشروع دون تغيير بيانات العميل', 'success');
+  });
+
+  document.getElementById('deleteProjectBtn').addEventListener('click', function(){
+    if(!activeProjectId) return;
+    ForgeXUI.confirm('هل تريد حذف هذا المشروع؟ سيتم حذف المشروع فقط، مع الاحتفاظ ببيانات العميل.', 'حذف المشروع').then(function(ok){
+      if(!ok) return;
+      ForgeXDB.projects.remove(activeProjectId);
+      ForgeXDB.attachments.removeByProject(activeProjectId);
+      detailModal.classList.remove('is-open');
+      render();
+      ForgeXUI.toast('تم حذف المشروع بنجاح', 'success');
+    });
   });
   document.getElementById('viewCustomerBtn').addEventListener('click', function(){
     var p = ForgeXDB.projects.getById(activeProjectId);
